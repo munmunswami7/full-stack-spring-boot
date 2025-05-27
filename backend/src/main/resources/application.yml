@@ -1,0 +1,36 @@
+spring:
+  main:
+    web-application-type: SERVLET
+
+  datasource:
+    url: jdbc:postgresql://awseb-e-kbrmddmpq3-stack-awsebrdsdatabase-uogappxctjig.ctnbtczet5qk.ap-south-1.rds.amazonaws.com:5432/customer
+    username: vishwaswami
+    password: 12345678
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+        show-sql: true
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    baseline-version: 1
+
+
+server:
+  port: 8080
+  error:
+    include-message: ALWAYS
+
+logging:
+  level:
+    root: INFO
+    org.springframework.web: DEBUG
+    com.vishwa.Customer: DEBUG
+    org.springframework.boot.autoconfigure.flyway: DEBUG
+    org.springframework.jdbc.datasource: DEBUG
+
