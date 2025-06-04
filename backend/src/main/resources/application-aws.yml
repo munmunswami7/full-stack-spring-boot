@@ -1,0 +1,5 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://awseb-e-r2dqj44uy8-stack-awsebrdsdatabase-unmt94vrvhfu.ctnbtczet5qk.ap-south-1.rds.amazonaws.com:5432/customer
+    username: vishwaswami
+    password: 12345678

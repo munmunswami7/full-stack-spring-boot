@@ -1,7 +1,7 @@
 services:
   db:
     container_name: postgres
-    image: postgres:15.1
+    image: postgres
     environment:
       POSTGRES_USER: vishwaswami
       POSTGRES_PASSWORD: 12345678
@@ -20,6 +20,7 @@ services:
     image: vishwaswami7/spring-boot-example
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://awseb-e-r2dqj44uy8-stack-awsebrdsdatabase-unmt94vrvhfu.ctnbtczet5qk.ap-south-1.rds.amazonaws.com:5432/customer
+      SPRING_PROFILES_ACTIVE: local
     ports:
       - "8088:8080"
     networks:
