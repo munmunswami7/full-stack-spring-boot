@@ -2,10 +2,13 @@ spring:
   main:
     web-application-type: SERVLET
 
+  profiles:
+    active: local
+
   datasource:
-    url: jdbc:postgresql://awseb-e-r2dqj44uy8-stack-awsebrdsdatabase-unmt94vrvhfu.ctnbtczet5qk.ap-south-1.rds.amazonaws.com:5432/customer
-    username: vishwaswami
-    password: 12345678
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
 
   jpa:
     hibernate:
