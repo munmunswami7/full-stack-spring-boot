@@ -37,6 +37,6 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
           cache: 'maven'
-          cache-dependency-path: 'sub-project/pom.xml' # optional
+          cache-dependency-path: 'backend/pom.xml' # optional
       - name: Build and run Unit/Integration Tests with Maven
         run: mvn -ntp -B verify
