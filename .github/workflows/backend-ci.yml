@@ -9,7 +9,7 @@ on:
 
 jobs:
   build:
-    runs on: ubuntu-latest
+    runs-on: ubuntu-latest
 
     defaults:
       run:
@@ -23,7 +23,7 @@ jobs:
           POSTGRES_PASSWORD: 12345678
           POSTGRES_DB: customer
         ports:
-          5332:5432         #host:container
+          - 5332:5432         #host:container
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
@@ -37,6 +37,6 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
           cache: 'maven'
-          cache-dependency-path: 'sub-project/pom.xml' # optional
+          cache-dependency-path: 'backend/pom.xml' # optional
       - name: Build and run Unit/Integration Tests with Maven
         run: mvn -ntp -B verify
