@@ -1,5 +1,5 @@
 spring:
   datasource:
-    url: jdbc:postgresql://awseb-e-gtxt97xm2z-stack-awsebrdsdatabase-zf7gfm6umigg.ctnbtczet5qk.ap-south-1.rds.amazonaws.com:5432/customer
+    url: jdbc:postgresql://awseb-e-6ctyxmcqhy-stack-awsebrdsdatabase-zwxffx8vdufc.ctnbtczet5qk.ap-south-1.rds.amazonaws.com:5432/customer
     username: vishwaswami
     password: 12345678
