@@ -56,7 +56,7 @@ jobs:
       - name: Update Dockerrun.aws.json api image tag with new Build Number
         run: |
           echo "Dockerrun.aws.json before updating tag"
-          cat ../Dockerrun.aws.json
+          cat ./Dockerrun.aws.json
           sed -i -E 's_(vishwaswami7/spring-boot-example:)([^"]*)_\1'${{steps.build-number.outputs.BUILD_NUMBER}}'_' Dockerrun.aws.json
           echo "Dockerrun.aws.json after updating tag"
           cat ./Dockerrun.aws.json
