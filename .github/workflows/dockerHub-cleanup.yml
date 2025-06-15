@@ -1,0 +1,21 @@
+name: Docker Hub Cleanup
+
+on:
+  schedule:
+    - cron: '0 3 * * 0'  # every Sunday at 3AM UTC
+  workflow_dispatch:  # allows manual trigger as well
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Delete old images from Docker Hub
+        uses: peter-evans/dockerhub-cleanup@v1
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          token: ${{ secrets.DOCKER_HUB_TOKEN }}
+          repository: vishwaswami7/spring-boot-example
+          keep-last: 10
+          keep-tags: latest
+          dry-run: false
