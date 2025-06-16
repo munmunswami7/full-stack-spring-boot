@@ -15,7 +15,7 @@
       "environment": [
         {
           "name": "SPRING_DATASOURCE_URL",
-          "value": "awseb-e-eyigeqd8ib-stack-awsebrdsdatabase-udnktcs3aolg.ctnbtczet5qk.ap-south-1.rds.amazonaws.com/customer"
+          "value": "awseb-e-rpqjgcpw52-stack-awsebrdsdatabase-eg2ypg4jstw0.ctnbtczet5qk.ap-south-1.rds.amazonaws.com/customer"
         },
         {
           "name": "SPRING_PROFILES_ACTIVE",
