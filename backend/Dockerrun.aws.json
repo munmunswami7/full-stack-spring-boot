@@ -3,7 +3,7 @@
   "containerDefinitions": [
     {
       "name": "spring-boot-example-api",
-      "image": "vishwaswami7/spring-boot-example:16.06.2025.16.57.28",
+      "image": "vishwaswami7/spring-boot-example:16.06.2025.17.04.12",
       "essential": true,
       "memory": 512,
       "portMappings": [
