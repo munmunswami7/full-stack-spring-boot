@@ -3,7 +3,7 @@ package com.vishwa.journey;
 import com.github.javafaker.Faker;
 import com.vishwa.Customer.Customer;
 import com.vishwa.Customer.CustomerController;
-import com.vishwa.Customer.CustomerRepository;
+import com.vishwa.Customer.Gender;
 import com.vishwa.Customer.JSON_Requests.CustomerRegistrationRequest;
 import com.vishwa.Customer.JSON_Requests.CustomerUpdateRequest;
 import org.junit.jupiter.api.Test;
@@ -39,8 +39,9 @@ public class CustomerIntegrationTest {
         String name = faker.name().firstName();
         String email = faker.internet().emailAddress()+"_"+UUID.randomUUID()+"@gmail.com";
         int age = random.nextInt(1,100);
+        Gender gender = age%2 ==0 ? Gender.MALE : Gender.FEMALE;
 
-        CustomerRegistrationRequest request = new CustomerRegistrationRequest(name,email,age);
+        CustomerRegistrationRequest request = new CustomerRegistrationRequest(name,email,age,gender);
 
         //send a post request
         webTestClient.post()
@@ -64,8 +65,7 @@ public class CustomerIntegrationTest {
 
         //make sure that customer is present
         Customer expectedCustomer = new Customer(
-                name, email, age
-        );
+                name, email, age, gender);
 
         assertThat(allCustomers)
                 .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
@@ -101,8 +101,10 @@ public class CustomerIntegrationTest {
         String email = faker.name().lastName() + "-" + UUID.randomUUID() + "@amigoscode.com";
         int age = random.nextInt(1,100);
 
+        Gender gender = age%2 ==0 ? Gender.MALE : Gender.FEMALE;
+
         CustomerRegistrationRequest request = new CustomerRegistrationRequest(
-                name, email, age
+                name, email, age, gender
         );
 
         // send a post request
@@ -160,8 +162,10 @@ public class CustomerIntegrationTest {
         String email = faker.name().lastName() + "-" + UUID.randomUUID() + "@amigoscode.com";
         int age = random.nextInt(1,100);
 
+        Gender gender = age%2 ==0 ? Gender.MALE : Gender.FEMALE;
+
         CustomerRegistrationRequest request = new CustomerRegistrationRequest(
-                name, email, age
+                name, email, age, gender
         );
 
         // send a post request
@@ -222,8 +226,8 @@ public class CustomerIntegrationTest {
                 .getResponseBody();
 
         Customer expected = new Customer(
-                id, newName, email, age
-        );
+                id, newName, email, age,
+                Gender.MALE);
 
         assertThat(updatedCustomer).isEqualTo(expected);
     }

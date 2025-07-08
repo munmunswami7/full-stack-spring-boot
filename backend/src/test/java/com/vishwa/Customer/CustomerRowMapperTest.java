@@ -6,8 +6,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class CustomerRowMapperTest {
 
     @Test
@@ -19,11 +17,12 @@ class CustomerRowMapperTest {
         Mockito.when(resultSet.getInt("age")).thenReturn(19);
         Mockito.when(resultSet.getString("name")).thenReturn("Jamila");
         Mockito.when(resultSet.getString("email")).thenReturn("jamila@gmail.com");
+        Mockito.when(resultSet.getString("gender")).thenReturn("FEMALE");
 
         //WHEN
         Customer actual = underTest.mapRow(resultSet,1);
         //THEN
-        Customer expected = new Customer(1, "Jamila","jamila@gmail.com",19);
+        Customer expected = new Customer(1, "Jamila","jamila@gmail.com",19, Gender.FEMALE);
         assertThat(actual).isEqualTo(expected);
     }
 }

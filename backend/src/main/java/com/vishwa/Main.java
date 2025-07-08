@@ -1,8 +1,8 @@
 package com.vishwa;
 import com.github.javafaker.Faker;
 import com.vishwa.Customer.Customer;
-import com.vishwa.Customer.CustomerDAO;
 import com.vishwa.Customer.CustomerRepository;
+import com.vishwa.Customer.Gender;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -30,8 +30,8 @@ public class Main {
             Customer customer = new Customer(faker.name().fullName(),
                     faker.name().firstName().toLowerCase()+ "."+ faker.name().lastName().toLowerCase()+"@example.com",
 
-                    random.nextInt(16,99));
-            customerRepository.save(customer);
+                    random.nextInt(16,99), Gender.MALE);
+//            customerRepository.save(customer);
         };
     }
 }

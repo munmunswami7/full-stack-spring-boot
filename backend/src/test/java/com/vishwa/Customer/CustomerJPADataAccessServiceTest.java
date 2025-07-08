@@ -1,14 +1,11 @@
 package com.vishwa.Customer;
 
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
 
 class CustomerJPADataAccessServiceTest {
@@ -54,7 +51,7 @@ class CustomerJPADataAccessServiceTest {
     void insertCustomer() {
         //GIVEN
         Customer customer = new Customer(
-                1, "Ali", "alilhan@gmail.com",45);
+                1, "Ali", "alilhan@gmail.com",45, Gender.MALE);
         //WHEN
         underTest.insertCustomer(customer);
         //THEN
@@ -95,7 +92,7 @@ class CustomerJPADataAccessServiceTest {
     void updateCustomer() {
         //GIVEN
         Customer customer = new Customer(
-                1, "Casino", "casinoroyal@gmail.com",23);
+                1, "Casino", "casinoroyal@gmail.com",23, Gender.MALE);
         //WHEN
         underTest.updateCustomer(customer);
         //THEN

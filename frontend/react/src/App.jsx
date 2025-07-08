@@ -47,7 +47,9 @@ const App = () => {
         {customers.map((customer,index) => (
           <WrapItem key={index}>
             <Center w="230px" h="450px" bg="red.muted">
-              <CardWithImage {...customer} />
+              <CardWithImage
+                {...customer}
+                 imageNumber = {index}/>
             </Center>
           </WrapItem>
         ))}

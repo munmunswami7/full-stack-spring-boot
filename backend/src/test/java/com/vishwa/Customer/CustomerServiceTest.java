@@ -4,7 +4,6 @@ import com.vishwa.Customer.JSON_Requests.CustomerRegistrationRequest;
 import com.vishwa.Customer.JSON_Requests.CustomerUpdateRequest;
 import com.vishwa.exception.DuplicateResourceException;
 import com.vishwa.exception.ResourceNotFoundException;
-import org.aspectj.weaver.patterns.IVerificationRequired;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,11 +12,9 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import javax.swing.text.html.Option;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 
 @ExtendWith(MockitoExtension.class)
@@ -45,7 +42,7 @@ class CustomerServiceTest {
     void canGetCustomerByID() {
         //GIVEN
         int id =10;
-        Customer customer = new Customer(id,"Alex","alex23@gmail.com",27);
+        Customer customer = new Customer(id,"Alex","alex23@gmail.com",27, Gender.MALE);
         Mockito.when(customerDAO.selectCustomerByID(id)).thenReturn(Optional.of(customer));   // this we have mocked customerDao
         //WHEN
         Customer actual = underTest.getCustomerByID(10);   // this will return mocked value
@@ -69,7 +66,7 @@ class CustomerServiceTest {
         //GIVEN
         String email = "alex23@gmail.com";
         Mockito.when(customerDAO.existPersonWithEmail(email)).thenReturn(false);
-        CustomerRegistrationRequest request = new CustomerRegistrationRequest("Alex", email, 19);
+        CustomerRegistrationRequest request = new CustomerRegistrationRequest("Alex", email, 19, Gender.FEMALE);
         //WHEN
         underTest.addCustomer(request);
         //THEN
@@ -88,7 +85,7 @@ class CustomerServiceTest {
         //GIVEN
         String email = "alex24563@gmail.com";
         Mockito.when(customerDAO.existPersonWithEmail(email)).thenReturn(true);
-        CustomerRegistrationRequest request = new CustomerRegistrationRequest("Alex", email, 19);
+        CustomerRegistrationRequest request = new CustomerRegistrationRequest("Alex", email, 19, Gender.FEMALE);
 
         //WHEN
         assertThatThrownBy(() -> underTest.addCustomer(request))
@@ -129,7 +126,7 @@ class CustomerServiceTest {
         int id = 10;
         String newEmail = "alexandro@gmail.com";
 
-        Customer customer = new Customer(id, "Alex","alex@gmail.com",19);
+        Customer customer = new Customer(id, "Alex","alex@gmail.com",19, Gender.MALE);
 
         Mockito.when(customerDAO.selectCustomerByID(id)).thenReturn(Optional.of(customer));
         CustomerUpdateRequest updateRequest = new CustomerUpdateRequest("Alexandro", newEmail,23);
@@ -156,7 +153,7 @@ class CustomerServiceTest {
     void canUpdateOnlyCustomerName() {
         //GIVEN
         int id = 10;
-        Customer customer = new Customer(id, "Alex","alex@gmail.com",19);
+        Customer customer = new Customer(id, "Alex","alex@gmail.com",19, Gender.MALE);
 
         Mockito.when(customerDAO.selectCustomerByID(id)).thenReturn(Optional.of(customer));
 
@@ -178,7 +175,7 @@ class CustomerServiceTest {
     void canUpdateOnlyCustomerEmail() {
         //GIVEN
         int id = 10;
-        Customer customer = new Customer(id, "Alex","alex@gmail.com",19);
+        Customer customer = new Customer(id, "Alex","alex@gmail.com",19, Gender.MALE);
 
         Mockito.when(customerDAO.selectCustomerByID(id)).thenReturn(Optional.of(customer));
 
@@ -224,7 +221,7 @@ class CustomerServiceTest {
     void canUpdateOnlyCustomerAge() {
         //GIVEN
         int id = 10;
-        Customer customer = new Customer(id, "Alex","alex@gmail.com",19);
+        Customer customer = new Customer(id, "Alex","alex@gmail.com",19, Gender.MALE);
 
         Mockito.when(customerDAO.selectCustomerByID(id)).thenReturn(Optional.of(customer));
 
