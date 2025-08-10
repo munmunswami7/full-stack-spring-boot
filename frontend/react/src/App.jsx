@@ -1,8 +1,9 @@
 import { Wrap,WrapItem, Spinner, Text, Center} from "@chakra-ui/react";
 import SidebarWithHeader from "./components/shared/SideBar";
 import { useEffect, useState } from "react";
-import { getCustomers } from "./services/Client";
+import { getCustomers } from "./services/client";
 import CardWithImage from "./components/Card";
+import CreateCustomerDrawer from "./components/CreateCustomerDrawer";
 
 
 const App = () => {
@@ -10,8 +11,8 @@ const App = () => {
   const [customers, setCustomer] = useState([])
   const [loading, setLoading] = useState(false)
 
-  useEffect(()=>{
-    setLoading(true)
+const fetchCustomers= () => {
+      setLoading(true)
     getCustomers().then(res => {
       console.log("Fetched customers: ", res.data);
       setCustomer(res.data)
@@ -20,6 +21,10 @@ const App = () => {
     }).finally(() => {
       setLoading(false)
     })
+}
+
+  useEffect(()=>{
+    fetchCustomers()
   },[])
 
 
@@ -34,7 +39,8 @@ const App = () => {
   if(customers.length <= 0){
     return(
         <SidebarWithHeader>
-          <Text>No customers Available</Text>
+          <CreateCustomerDrawer fetchCustomers={fetchCustomers} />
+          <Text mt={3}>No customers Available</Text>
         </SidebarWithHeader>
     )
   
@@ -43,13 +49,16 @@ const App = () => {
 
   return (
     <SidebarWithHeader>
-      <Wrap spacing="30px" justify="space-evenly">
+      <CreateCustomerDrawer fetchCustomers={fetchCustomers} />
+      <Wrap spacing="100px" justify="space-evenly">
         {customers.map((customer,index) => (
           <WrapItem key={index}>
-            <Center w="230px" h="450px" bg="red.muted">
+            <Center w="300px" h="450px" bg="red.muted">
               <CardWithImage
                 {...customer}
-                 imageNumber = {index}/>
+                 imageNumber = {index}
+                 fetchCustomers={fetchCustomers}
+                 />
             </Center>
           </WrapItem>
         ))}

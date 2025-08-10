@@ -11,6 +11,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
 
@@ -22,11 +23,14 @@ class CustomerServiceTest {
 
     private CustomerService underTest;
     @Mock
+    private PasswordEncoder passwordEncoder;
+    @Mock
     private CustomerDAO customerDAO;
+    private final CustomerDTOMapper customerDTOMapper = new CustomerDTOMapper();
 
     @BeforeEach
     void setUp() {
-        underTest = new CustomerService(customerDAO);
+        underTest = new CustomerService(customerDAO, customerDTOMapper, passwordEncoder);
     }
 
 
@@ -42,12 +46,13 @@ class CustomerServiceTest {
     void canGetCustomerByID() {
         //GIVEN
         int id =10;
-        Customer customer = new Customer(id,"Alex","alex23@gmail.com",27, Gender.MALE);
+        Customer customer = new Customer(id,"Alex","alex23@gmail.com", "password", 27, Gender.MALE);
         Mockito.when(customerDAO.selectCustomerByID(id)).thenReturn(Optional.of(customer));   // this we have mocked customerDao
+        CustomerDTO expected = customerDTOMapper.apply(customer);
         //WHEN
-        Customer actual = underTest.getCustomerByID(10);   // this will return mocked value
+        CustomerDTO actual = underTest.getCustomerByID(10);   // this will return mocked value
         //THEN
-        assertThat(actual).isEqualTo(customer);    //asserting that mocked value is same as customer
+        assertThat(actual).isEqualTo(expected);    //asserting that mocked value is same as customer
     }
     @Test
     void willThrowWhenGetCustomerByIDReturnEmptyOptional() {
@@ -66,7 +71,11 @@ class CustomerServiceTest {
         //GIVEN
         String email = "alex23@gmail.com";
         Mockito.when(customerDAO.existPersonWithEmail(email)).thenReturn(false);
-        CustomerRegistrationRequest request = new CustomerRegistrationRequest("Alex", email, 19, Gender.FEMALE);
+        CustomerRegistrationRequest request = new CustomerRegistrationRequest("Alex", email, "password", 19, Gender.FEMALE);
+
+        String passwordHash = "jl$^$%%765^&^%*5";
+        Mockito.when(passwordEncoder.encode(request.password()))
+                .thenReturn(passwordHash);
         //WHEN
         underTest.addCustomer(request);
         //THEN
@@ -78,6 +87,7 @@ class CustomerServiceTest {
         assertThat(capturedCustomer.getName()).isEqualTo(request.name());
         assertThat(capturedCustomer.getEmail()).isEqualTo(request.email());
         assertThat(capturedCustomer.getAge()).isEqualTo(request.age());
+        assertThat(capturedCustomer.getPassword()).isEqualTo(passwordHash);
     }
 
     @Test
@@ -85,7 +95,7 @@ class CustomerServiceTest {
         //GIVEN
         String email = "alex24563@gmail.com";
         Mockito.when(customerDAO.existPersonWithEmail(email)).thenReturn(true);
-        CustomerRegistrationRequest request = new CustomerRegistrationRequest("Alex", email, 19, Gender.FEMALE);
+        CustomerRegistrationRequest request = new CustomerRegistrationRequest("Alex", email, "password", 19, Gender.FEMALE);
 
         //WHEN
         assertThatThrownBy(() -> underTest.addCustomer(request))
@@ -126,7 +136,7 @@ class CustomerServiceTest {
         int id = 10;
         String newEmail = "alexandro@gmail.com";
 
-        Customer customer = new Customer(id, "Alex","alex@gmail.com",19, Gender.MALE);
+        Customer customer = new Customer(id, "Alex","alex@gmail.com", "password", 19, Gender.MALE);
 
         Mockito.when(customerDAO.selectCustomerByID(id)).thenReturn(Optional.of(customer));
         CustomerUpdateRequest updateRequest = new CustomerUpdateRequest("Alexandro", newEmail,23);
@@ -153,7 +163,7 @@ class CustomerServiceTest {
     void canUpdateOnlyCustomerName() {
         //GIVEN
         int id = 10;
-        Customer customer = new Customer(id, "Alex","alex@gmail.com",19, Gender.MALE);
+        Customer customer = new Customer(id, "Alex","alex@gmail.com", "password", 19, Gender.MALE);
 
         Mockito.when(customerDAO.selectCustomerByID(id)).thenReturn(Optional.of(customer));
 
@@ -175,7 +185,7 @@ class CustomerServiceTest {
     void canUpdateOnlyCustomerEmail() {
         //GIVEN
         int id = 10;
-        Customer customer = new Customer(id, "Alex","alex@gmail.com",19, Gender.MALE);
+        Customer customer = new Customer(id, "Alex","alex@gmail.com", "password", 19, Gender.MALE);
 
         Mockito.when(customerDAO.selectCustomerByID(id)).thenReturn(Optional.of(customer));
 
@@ -221,7 +231,7 @@ class CustomerServiceTest {
     void canUpdateOnlyCustomerAge() {
         //GIVEN
         int id = 10;
-        Customer customer = new Customer(id, "Alex","alex@gmail.com",19, Gender.MALE);
+        Customer customer = new Customer(id, "Alex","alex@gmail.com", "password", 19, Gender.MALE);
 
         Mockito.when(customerDAO.selectCustomerByID(id)).thenReturn(Optional.of(customer));
 

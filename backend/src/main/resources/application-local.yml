@@ -1,5 +1,6 @@
 spring:
   datasource:
+#    for running locally through intellij
     url: jdbc:postgresql://localhost:5332/customer
     username: vishwaswami
     password: 12345678

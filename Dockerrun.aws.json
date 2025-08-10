@@ -1,0 +1,39 @@
+{
+  "AWSEBDockerrunVersion": 2,
+  "containerDefinitions": [
+    {
+      "name": "spring-boot-example-api",
+      "image": "vishwaswami7/spring-boot-example",
+      "essential": true,
+      "memory": 512,
+      "portMappings": [
+        {
+          "hostPort": 8080,
+          "containerPort": 8080
+        }
+      ],
+      "environment": [
+        {
+          "name": "SPRING_DATASOURCE_URL",
+          "value": "jdbc:postgresql://awseb-e-d3fmnmm7ef-stack-awsebrdsdatabase-e3q6cicw7pns.ctnbtczet5qk.ap-south-1.rds.amazonaws.com:5432/customer"
+        },
+        {
+          "name": "SPRING_PROFILES_ACTIVE",
+          "value": "aws"
+        }
+      ]
+    },
+    {
+      "name": "spring-boot-example-frontend",
+      "image": "vishwaswami7/spring-boot-example-frontend",
+      "essential": true,
+      "memory": 256,
+      "portMappings": [
+        {
+          "hostPort": 80,
+          "containerPort": 5173
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+services:
+  db:
+    container_name: postgres
+    image: postgres
+    environment:
+      POSTGRES_USER: vishwaswami
+      POSTGRES_PASSWORD: 12345678
+      POSTGRES_DB: customer
+      PGDATA: /var/lib/postgresql/data
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    ports:
+      - "5332:5432"
+    networks:
+      - postgres
+    restart: unless-stopped
+
+  spring-boot-example:
+    container_name: spring-boot-example
+    image: vishwaswami7/spring-boot-example
+    ports:
+      - "8088:8080"
+    networks:
+      - postgres
+    depends_on:
+      - db
+    restart: unless-stopped
+    environment:
+      SPRING_PROFILES_ACTIVE: local
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/customer
+      SPRING_DATASOURCE_USERNAME: vishwaswami
+      SPRING_DATASOURCE_PASSWORD: 12345678
+
+  spring-boot-example-frontend:
+    container_name: spring-boot-example-frontend
+    image: vishwaswami7/spring-boot-example-frontend
+    build:
+      context: frontend/react
+      args:
+        api_base_url: "http://localhost:8088"
+    ports: 
+      - "3000:5173"
+    depends_on:
+      - spring-boot-example
+    restart: unless-stopped
+
+
+
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    volumes:
+      - pgadmin:/var/lib/pgadmin
+    ports:
+      - "5050:80"
+    networks:
+      - postgres
+    restart: unless-stopped
+    depends_on:
+      - db
+
+networks:
+  postgres:
+    driver: bridge
+
+volumes:
+  postgres:
+  pgadmin:

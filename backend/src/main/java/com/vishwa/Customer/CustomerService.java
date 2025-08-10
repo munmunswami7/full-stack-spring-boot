@@ -6,25 +6,38 @@ import com.vishwa.exception.DuplicateResourceException;
 import com.vishwa.exception.RequestValidationException;
 import com.vishwa.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CustomerService {
     private final CustomerDAO customerDAO;
+    private final CustomerDTOMapper customerDTOMapper;
+    private final PasswordEncoder passwordEncoder;
 
-    public CustomerService(@Qualifier("jpa") CustomerDAO customerDAO) {
+
+    public CustomerService(@Qualifier("jpa") CustomerDAO customerDAO,
+                           CustomerDTOMapper customerDTOMapper,
+                           PasswordEncoder passwordEncoder) {
 
         this.customerDAO = customerDAO;
+        this.customerDTOMapper = customerDTOMapper;
+        this.passwordEncoder = passwordEncoder;
     }
 
-    public List<Customer> getAllCustomers(){
-        return customerDAO.selectAllCustomers();
+    public List<CustomerDTO> getAllCustomers(){
+        return customerDAO.selectAllCustomers()
+                .stream()
+                .map(customerDTOMapper)
+                .collect(Collectors.toList());
     }
 
-    public Customer getCustomerByID(Integer customerID){
+    public CustomerDTO getCustomerByID(Integer customerID){
         return customerDAO.selectCustomerByID(customerID)
+                .map(customerDTOMapper)
                 .orElseThrow(() -> new ResourceNotFoundException("customer with ID[%s] was not found".formatted(customerID)));
     }
 
@@ -36,6 +49,7 @@ public class CustomerService {
                     new Customer(
                             customerRegistrationRequest.name(),
                             customerRegistrationRequest.email(),
+                            passwordEncoder.encode(customerRegistrationRequest.password()),
                             customerRegistrationRequest.age(),
                             customerRegistrationRequest.gender())
             );
@@ -50,7 +64,9 @@ public class CustomerService {
     }
 
     public void updateCustomer(Integer customerID, CustomerUpdateRequest updateRequest){
-        Customer customer = getCustomerByID(customerID);
+        Customer customer = customerDAO.selectCustomerByID(customerID)
+                .orElseThrow(() -> new ResourceNotFoundException("customer with id [%s] not found".formatted(customerID)));
+
         boolean changes = false;
         if(updateRequest.name() != null && !updateRequest.name().equals(customer.getName())){
             customer.setName(updateRequest.name());

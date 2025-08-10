@@ -1,12 +1,14 @@
 package com.vishwa.Customer;
 
 import com.vishwa.AbstractTestContainersUnitTest;
+import com.vishwa.TestConfig;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Import;
 
 import java.util.UUID;
 
@@ -14,6 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE) //this stops its embedded database and class connect to database in application.properties file
+@Import({TestConfig.class})
 class CustomerRepositoryTest extends AbstractTestContainersUnitTest {       // but we don't wnt to connect to our production database, we need to connect to Test container
     // so we use extent AbstractTestContainersUnitTest
     @Autowired
@@ -34,7 +37,7 @@ class CustomerRepositoryTest extends AbstractTestContainersUnitTest {       // b
         Customer customer = new Customer(
                 faker.name().fullName(),
                 email,
-                20,
+                "password", 20,
                 Gender.MALE);
         underTest.save(customer);
 
@@ -68,7 +71,7 @@ class CustomerRepositoryTest extends AbstractTestContainersUnitTest {       // b
         Customer customer = new Customer(
                 faker.name().fullName(),
                 email,
-                20,
+                "password", 20,
                 Gender.MALE);
         underTest.save(customer);
 
