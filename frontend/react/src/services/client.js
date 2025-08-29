@@ -1,8 +1,19 @@
 import axios from 'axios';
 
+const getAuthConfig = () => ({
+    headers: {
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`
+    }
+})
+
 export const getCustomers = async () => {
     try {
-        return await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/v1/customers`)
+        const res = await axios.get(
+            `${import.meta.env.VITE_API_BASE_URL}/api/v1/customers`,
+            getAuthConfig()
+        )
+        console.log("getCustomers response: ",res.data);
+        return res
     }catch (e){
         throw e
     }
@@ -10,11 +21,13 @@ export const getCustomers = async () => {
 
 export const saveCustomer = async(customer) => {
     try{
-        return await axios.post(
+        const res = await axios.post(
             `${import.meta.env.VITE_API_BASE_URL}/api/v1/customers`,
             customer
         )
-
+        console.log("saveCustomer response: ", res.data);
+        
+        return res
     }catch(e) {
         throw e
     }
@@ -22,9 +35,12 @@ export const saveCustomer = async(customer) => {
 
 export const deleteCustomer = async(id) => {
     try{
-        return await axios.delete(
-            `${import.meta.env.VITE_API_BASE_URL}/api/v1/customers/${id}`
+        const res =  await axios.delete(
+            `${import.meta.env.VITE_API_BASE_URL}/api/v1/customers/${id}`,
+            getAuthConfig()
         )
+        console.log("deleteCustomer response: ", res.data);
+        return res
 
     }catch(e) {
         throw e
@@ -33,12 +49,27 @@ export const deleteCustomer = async(id) => {
 
 export const updateCustomer = async(id, update) => {
     try{
-        return await axios.put(
+        const res = await axios.put(
             `${import.meta.env.VITE_API_BASE_URL}/api/v1/customers/${id}`,
-            update
+            update,
+            getAuthConfig()
         )
-
+        console.log("updateCustomer response: ", res.data);
+        return res
     }catch(e) {
         throw e
+    }
+}
+
+export const login = async(userNameAndPassword) => {
+    try{
+        const res = await axios.post(
+            `${import.meta.env.VITE_API_BASE_URL}/api/v1/auth/login`,
+            userNameAndPassword
+        )
+        console.log("login response: ", res.data);
+        return res
+    }catch(e){
+        throw(e);
     }
 }

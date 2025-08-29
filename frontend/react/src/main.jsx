@@ -3,16 +3,33 @@ import ReactDOM from 'react-dom/client'
 import './index.css'
 import App from './App.jsx'
 import {ChakraProvider, extendTheme} from "@chakra-ui/react"
+import {createBrowserRouter, RouterProvider} from "react-router-dom"
+import Login from "./components/login/Login.jsx"
+import AuthProvider from './components/context/AuthContext.jsx'
+import ProtectedRouter from './components/shared/ProtectedRoute.jsx'
 
 const theme = extendTheme({})
+
+const router = createBrowserRouter([
+    {
+        path: "/",
+        element: <Login />
+    },
+
+    {
+        path: "dashboard",
+        element: <ProtectedRouter><App /></ProtectedRouter> 
+    }
+])
 
 ReactDOM
     .createRoot(document.getElementById('root'))
     .render(
   <React.StrictMode>
     <ChakraProvider theme={theme}>
-      <App />
+      <AuthProvider>
+        <RouterProvider router={router} />
+      </AuthProvider>
     </ChakraProvider>
-    
   </React.StrictMode>,
 )

@@ -52,6 +52,7 @@ const CreateCustomerForm = ({fetchCustomers}) => {
           email: '',
           age: 0,
           gender: '', // added for our select
+          password: ''
         }}
         validationSchema={Yup.object({
           name: Yup.string()
@@ -63,6 +64,10 @@ const CreateCustomerForm = ({fetchCustomers}) => {
           age: Yup.number()
             .max(200, 'Must be less tahn 200 years of age')
             .min(16, "Must be minimum 16 years of age")
+            .required('Required'),
+          password: Yup.string()
+            .min(4, 'Must be 4 characters or more')
+            .max(15, 'Must be 15 characters or less')
             .required('Required'),
           gender: Yup.string()
             .oneOf(
@@ -94,7 +99,7 @@ const CreateCustomerForm = ({fetchCustomers}) => {
       >
         {({isValid, isSubmitting})=> (
           <Form>
-            <Stack spacing={"24"}>
+            <Stack spacing={"15"}>
               <MyTextInput
                 label="Name"
                 name="name"
@@ -112,8 +117,14 @@ const CreateCustomerForm = ({fetchCustomers}) => {
               <MyTextInput
                 label="Age"
                 name="age"
-                type="NUMBER"
+                type="number"
                 placeholder="45"
+              />
+
+              <MyTextInput
+                label="Password"
+                name="password"
+                type="password"
               />
 
               <MySelect label="Gender" name="gender">
