@@ -14,10 +14,11 @@ import {
   Alert,
   AlertIcon,
   Select,
-  Box
+  Box,
+  Link
 } from '@chakra-ui/react'
 import { Formik, Form, useField } from 'formik';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import { useAuth } from '../context/AuthContext';
 import notifications from '../../services/notifications';
@@ -125,6 +126,9 @@ const Login = () => {
         <Stack spacing={4} w={'full'} maxW={'md'}>
           <Heading fontSize={'2xl'} mb={15}>Sign in to your account</Heading>
           <LoginForm />
+          <Link as={RouterLink} to="/signup" color={'blue.500'}>
+            Don't have an account? SignUp.
+          </Link>
         </Stack>
       </Flex>
       <Flex 
