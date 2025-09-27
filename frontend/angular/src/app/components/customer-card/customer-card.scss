@@ -1,0 +1,16 @@
+img.cover {
+    width: 100%;
+    height: 150px;
+    display: block;
+    object-fit: cover;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.customer-avatar {
+    width: 92px !important;
+    height: 92px;
+    border-radius: 50%;
+    border: solid 2px #ffff;
+}
+

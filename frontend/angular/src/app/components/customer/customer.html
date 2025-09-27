@@ -1,0 +1,55 @@
+
+
+<p-drawer [(visible)]="visible" header="Right Drawer" position="right" [style]="{ width: '40vw', maxWidth: '50vw' }">
+    <app-manage-customer  
+        [showPasswordGender] = "operation"
+        (submit) = "save($event)" 
+        [customerRR]="customer"
+        (cancel)="cancel()">
+    </app-manage-customer>
+</p-drawer>
+
+<div class="flex align-items-stretch" style="height: 99vh;">
+    <div class="flex flex-column align-items-stretch border-right-1 col-2 border-grey-200">
+        <app-menu-bar></app-menu-bar>
+    </div>
+    <div class="flex flex-column flex-grow-1">
+        <div>
+            <app-header-bar></app-header-bar>
+        </div>
+        <div class="main-container p-3">
+           <button
+                pButton
+                icon="pi pi-plus"
+                label="Create Customer"
+                class="p-button-success"
+                (click)="createCustomer()"
+           ></button>
+            <div class="flex justify-content-center align-items-center flex-wrap gap-8">
+                <app-customer-card
+                    *ngFor = "let customer of customers, let index = index"
+                    [customerFromBackend]="customer"
+                    [customerIndex]="index+1"
+                    (delete)="deleteCustomer($event)"
+                    (update)="updateCustomer($event)"
+                ></app-customer-card>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add this OUTSIDE the drawer & main content -->
+<p-toast position="bottom-center"></p-toast>
+
+<p-confirmDialog
+    header="Confirmation"
+    icon="pi pi-exclamation-triangle"
+    acceptLabel= "Delete"
+    acceptButtonStyleClass="p-button-danger"
+    acceptIcon="pi pi-trash"
+    rejectLabel="Cancel"
+></p-confirmDialog>
+
+
+<p>Operation is: {{operation}}</p>
+<div *ngIf="operation === 'create'">PASSWORD SHOULD BE VISIBLE</div>

@@ -1,0 +1,80 @@
+<div>
+
+    <h2>{{title}}</h2>
+    <div class="field">
+        <label for="firstname">Name</label>
+        <input
+            [(ngModel)] = 'customerRR.name'
+            id="firstname"
+            pInputText 
+            placeholder="Jane"
+            type="text"
+            class="w-full"
+        >
+    </div>
+
+    <div class="field">
+        <label for="email">Email</label>
+        <input
+            [(ngModel)] = 'customerRR.email'
+            id="email"
+            pInputText
+            placeholder="Jane@xyz.com"
+            type="email"
+            class="w-full"
+        >
+    </div>
+
+    <div class="field">
+        <label for="age">Age</label>
+        <input
+            [(ngModel)] = 'customerRR.age'
+            id="age"
+            pInputText
+            placeholder=34
+            type="number"
+            class="w-full"
+        >
+    </div>
+
+    <div class="field" *ngIf="showPasswordGender?.trim() === 'create'">
+        <label for="password">Password</label>
+        <input
+            [(ngModel)] = 'customerRR.password'
+            id="password"
+            pInputText
+            placeholder="Password"
+            type="password"
+            class="w-full"
+        >
+    </div>
+
+    <div class="field" *ngIf="showPasswordGender?.trim() === 'create'">
+        <label for="gender">Gender</label>
+        <select
+            [(ngModel)] = 'customerRR.gender'
+            class="p-dropdown w-full custom-select" 
+            id="gender">
+            <option value="">Select an Option</option>
+            <option value="MALE">MALE</option>
+            <option value="FEMALE">FEMALE</option>
+        </select>
+    </div>
+
+    <button
+        [disabled]="!isCustomerValid"
+        (click)="onSubmit()"
+        pButton
+        label="Submit"
+        class="w-full mt-5"    
+    ></button>
+    <button
+        pButton
+        (click)="onCancel()"
+        label="Cancel"
+        class="w-full p-button-outlined p-button-danger mt-2" 
+    ></button>
+</div>
+
+<p>Debug: "{{showPasswordGender}}"</p>
+<p>Child Debug (should only appear once): {{showPasswordGender}}</p>

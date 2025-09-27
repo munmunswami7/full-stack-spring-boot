@@ -3,6 +3,10 @@ package com.vishwa.Customer;
 import com.vishwa.AbstractTestContainersUnitTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Mockito;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -14,6 +18,7 @@ class CustomerJDBCDataAccessServiceTest extends AbstractTestContainersUnitTest {
 
     private CustomerJDBCDataAccessService underTest;
     private final CustomerRowMapper customerRowMapper = new CustomerRowMapper();
+    private CustomerRepository customerRepository;
 
     @BeforeEach
     void setUp() {
@@ -25,6 +30,7 @@ class CustomerJDBCDataAccessServiceTest extends AbstractTestContainersUnitTest {
 
     @Test
     void selectAllCustomers() {
+
         //GIVEN
         Customer customer = new Customer(
                 faker.name().fullName(),
@@ -36,6 +42,16 @@ class CustomerJDBCDataAccessServiceTest extends AbstractTestContainersUnitTest {
         List<Customer> actualCustomers = underTest.selectAllCustomers();
         //THEN
         assertThat(actualCustomers).isNotEmpty();
+
+//        Page<Customer> page = Mockito.mock(Page.class);
+//        List<Customer> customers = List.of(new Customer());
+//        Mockito.when(page.getContent()).thenReturn(customers);
+//        Mockito.when(customerRepository.findAll(any(Pageable.class))).thenReturn(page);
+//
+//        List<Customer> expected = underTest.selectAllCustomers();
+//
+//        assertThat(expected).isEqualTo(customers);
+//        ArgumentCaptor<Pageable> pageArgumentCaptor
     }
 
     @Test
