@@ -26,14 +26,14 @@ services:
       - db
     restart: unless-stopped
     environment:
-#      SPRING_PROFILES_ACTIVE: docker
-#      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/customer
-#      SPRING_DATASOURCE_USERNAME: vishwaswami
-#      SPRING_DATASOURCE_PASSWORD: 12345678
-      SPRING_PROFILES_ACTIVE: local
-      SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5332/customer
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/customer
       SPRING_DATASOURCE_USERNAME: vishwaswami
       SPRING_DATASOURCE_PASSWORD: 12345678
+#      SPRING_PROFILES_ACTIVE: local
+#      SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5332/customer
+#      SPRING_DATASOURCE_USERNAME: vishwaswami
+#      SPRING_DATASOURCE_PASSWORD: 12345678
 
   spring-boot-example-frontend:
     container_name: spring-boot-example-frontend
