@@ -26,14 +26,24 @@ services:
       - db
     restart: unless-stopped
     environment:
-      SPRING_PROFILES_ACTIVE: docker
-      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/customer
-      SPRING_DATASOURCE_USERNAME: vishwaswami
-      SPRING_DATASOURCE_PASSWORD: 12345678
+#      DOCKER
+#      SPRING_PROFILES_ACTIVE: docker
+#      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/customer
+#      SPRING_DATASOURCE_USERNAME: vishwaswami
+#      SPRING_DATASOURCE_PASSWORD: 12345678
+
+#      LOCAL
 #      SPRING_PROFILES_ACTIVE: local
 #      SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5332/customer
 #      SPRING_DATASOURCE_USERNAME: vishwaswami
 #      SPRING_DATASOURCE_PASSWORD: 12345678
+
+#      AWS
+      SPRING_PROFILES_ACTIVE: aws
+      SPRING_DATASOURCE_URL: jdbc:postgresql://awseb-e-mkr4emjhns-stack-awsebrdsdatabase-r5rcvj4wq8vk.ctnbtczet5qk.ap-south-1.rds.amazonaws.com:5432/customer
+      SPRING_DATASOURCE_USERNAME: vishwaswami
+      SPRING_DATASOURCE_PASSWORD: 12345678
+
 
   spring-boot-example-frontend:
     container_name: spring-boot-example-frontend
@@ -42,7 +52,7 @@ services:
       context: frontend/react
       args:
         api_base_url: "http://localhost:8088"
-    ports: 
+    ports:
       - "3000:5173"
     depends_on:
       - spring-boot-example
